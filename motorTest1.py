@@ -43,16 +43,16 @@ def allStop():
 	reverseRight.value = 0
  
 def forwardDrive():
-        forwardLeft.value = 0.25
+        forwardLeft.value = 0.8
         reverseLeft.value = 0
-        forwardRight.value = 0.3
+        forwardRight.value = 0.8
         reverseRight.value = 0
 
 def reverseDrive():
 	forwardLeft.value = 0
-	reverseLeft.value = 0.3
+	reverseLeft.value = 0.8
 	forwardRight.value = 0
-	reverseRight.value = 0.25
+	reverseRight.value = 0.75
  
 def spinLeft():
 	forwardLeft.value = 0
