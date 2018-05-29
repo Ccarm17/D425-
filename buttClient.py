@@ -18,7 +18,6 @@ def forwardButton():
     print('forward')
     s.send(str.encode('FORWARD'))
 
-
 def backwardButton():
     print('back')
     s.send(str.encode('BACKWARD'))

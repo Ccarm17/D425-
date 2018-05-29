@@ -142,12 +142,11 @@ def dataTransfer(conn):
 
         #print("Data has been sent!")
 
-        rightBump.when_pressed = rightBumpOn()
-        leftBump.when_pressed = leftBumpOn()
+
 
     conn.close()
-
-
+rightBump.when_pressed = rightBumpOn()
+leftBump.when_pressed = leftBumpOn()
 s = setupServer()
 
 while True:
