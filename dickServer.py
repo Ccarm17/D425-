@@ -130,6 +130,9 @@ def dataTransfer(conn):
         elif command == 'RIGHT':
             print('right')
             reply = spinRight()
+        elif command == 'STOP':
+            print('stop')
+            reply = allStop()
 
 
         else:

@@ -1,28 +1,16 @@
 
-"""
-File: skidsteer_four_pwm_test.py
 
-This code will test Raspberry Pi GPIO PWM on four GPIO
-pins. The code test ran with L298N H-Bridge driver module connected.
-
-Website:	www.bluetin.io
-Date:		27/11/2017
-"""
-
-__author__ = "Mark Heywood"
-__version__ = "0.1.0"
-__license__ = "MIT"
 
 import curses
 from gpiozero import PWMOutputDevice, Button
 from time import sleep
+
 from subprocess import check_call
 
 
 
 
-#///////////////// Define Motor Driver GPIO Pins /////////////////
-# Motor A, Left Side GPIO CONSTANTS
+
 
 PWM_FORWARD_LEFT_PIN = 26	# IN1 - Forward Drive
 PWM_REVERSE_LEFT_PIN = 19	# IN2 - Reverse Drive
@@ -55,10 +43,10 @@ def allStop():
 	reverseRight.value = 0
 
 def forwardDrive():
-        forwardLeft.value = 0.2
-        reverseLeft.value = 0
-        forwardRight.value = 0.2
-        reverseRight.value = 0
+    forwardLeft.value = 0.2
+    reverseLeft.value = 0
+    forwardRight.value = 0.2
+	reverseRight.value = 0
 
 def reverseDrive():
 	forwardLeft.value = 0
@@ -83,6 +71,9 @@ def leftBumpOn():
 	reverseLeft.value = 0
 	forwardRight.value = 0.8
 	reverseRight.value = 0
+	print('left bump')
+	sleep(0.2)
+	return
 
 def rightBumpOn():
 	forwardLeft.value = 0.8
@@ -91,6 +82,7 @@ def rightBumpOn():
 	reverseRight.value = 0
 	print('right bump')
 	sleep(0.5)
+	return None
 
 
 
@@ -102,20 +94,21 @@ def main():
 
          if char =='q':
              break
-         elif char =='s':
-                 forwardDrive()
          elif char =='w':
+                 forwardDrive()
+         elif char =='s':
                  reverseDrive()
-         elif char == 'd':
-                 spinLeft()
          elif char == 'a':
+                 spinLeft()
+         elif char == 'd':
                  spinRight()
          elif char == 'f':
                  allStop()
          rightBump.when_pressed = rightBumpOn
- 
+		 leftBump.when_pressed = leftBumpOn
 
-        
+
+
 
 
 
