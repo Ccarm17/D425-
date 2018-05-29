@@ -1,9 +1,28 @@
 import socket
+#from gpiozero import PWMOutputDevice, Button
+from time import sleep
+from subprocess import check_call
 
 host = ''
 port = 5560
 
-storedValue = "Yo, what's up?"
+PWM_FORWARD_LEFT_PIN = 26	# IN1 - Forward Drive
+PWM_REVERSE_LEFT_PIN = 19	# IN2 - Reverse Drive
+
+# Motor B, Right Side GPIO CONSTANTS
+PWM_FORWARD_RIGHT_PIN = 13	# IN1 - Forward Drive
+PWM_REVERSE_RIGHT_PIN = 6	# IN2 - Reverse Drive
+
+# Initialise objects for H-Bridge PWM pins
+# Set initial duty cycle to 0 and frequency to 1000
+forwardLeft = PWMOutputDevice(PWM_FORWARD_LEFT_PIN, True, 0, 500)
+reverseLeft = PWMOutputDevice(PWM_REVERSE_LEFT_PIN, True, 0, 500)
+
+forwardRight = PWMOutputDevice(PWM_FORWARD_RIGHT_PIN, True, 0, 500)
+reverseRight = PWMOutputDevice(PWM_REVERSE_RIGHT_PIN, True, 0, 500)
+
+leftBump = Button(21)
+rightBump = Button(20)
 
 def setupServer():
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -20,6 +39,54 @@ def setupConnection():
     conn, address = s.accept()
     print("Connected to: " + address[0] + ":" + str(address[1]))
     return conn
+
+def allStop():
+        forwardLeft.value = 0
+        reverseLeft.value = 0
+        forwardRight.value = 0
+        reverseRight.value = 0
+
+def forwardDrive():
+        forwardLeft.value = 0.2
+        reverseLeft.value = 0
+        forwardRight.value = 0.2
+        reverseRight.value = 0
+
+def reverseDrive():
+	forwardLeft.value = 0
+	reverseLeft.value = 0.15
+	forwardRight.value = 0
+	reverseRight.value = 0.15
+
+def spinLeft():
+	forwardLeft.value = 0
+	reverseLeft.value = 0.15
+	forwardRight.value = 0.15
+	reverseRight.value = 0
+
+def spinRight():
+	forwardLeft.value = 0.15
+	reverseLeft.value = 0
+	forwardRight.value = 0
+	reverseRight.value = 0.15
+
+def leftBumpOn():
+	forwardLeft.value = 0.2
+	reverseLeft.value = 0
+	forwardRight.value = 0.8
+	reverseRight.value = 0
+	print('left bump')
+	sleep(0.2)
+	return
+
+def rightBumpOn():
+	forwardLeft.value = 0.8
+	reverseLeft.value = 0
+	forwardRight.value = 0.2
+	reverseRight.value = 0
+	print('right bump')
+	sleep(0.5)
+	return None
 
 def GET():
     reply = storedValue
@@ -39,6 +106,7 @@ def dataTransfer(conn):
         # from the rest of the data.
         dataMessage = data.split(' ', 1)
         command = dataMessage[0]
+
         if command == 'GET':
             reply = GET()
         elif command == 'REPEAT':
@@ -50,11 +118,30 @@ def dataTransfer(conn):
             print("Our server is shutting down.")
             s.close()
             break
+        elif command == 'FORWARD':
+            print('forward')
+            reply = forwardDrive()
+        elif command == 'BACKWARD':
+            print ('backward')
+            reply = reverseDrive()
+        elif command == 'LEFT':
+            print('left')
+            reply = spinLeft()
+        elif command == 'RIGHT':
+            print('right')
+            reply = spinRight()
+
+
         else:
             reply = 'Unknown Command'
         # Send the reply back to the client
-        conn.sendall(str.encode(reply))
-        print("Data has been sent!")
+        #conn.sendall(str.encode(reply))
+
+        #print("Data has been sent!")
+
+        rightBump.when_pressed = rightBumpOn()
+        leftBump.when_pressed = leftBumpOn()
+
     conn.close()
 
 
