@@ -1,40 +1,50 @@
-import curses
-import socket
-import keyboard
 from gpiozero import Button
 from signal import pause
 from subprocess import check_call
 
-forward = Button(17)
 
-backward = Button(27)
-
-left = Button(22)
-
-right = Button()
-
-shutdown = Button()
-
-def shutdown():
+def Shutdown():
     check_call(['sudo', 'poweroff'])
 
 def forwardButton():
-    keyboard.write
+    print('forward')
+    
 
 def backwardButton():
-    print('Up')
+    print('back')
 
 def leftButton():
-    print('Down1')
+    print('left')
 
 def rightButton():
-    print('Up1')
+    print('right')
 
-button.when_pressed = buttonDown
-button.when_released = buttonUp
+def stopButton():
+    print('FUCK')
 
-button1.when_pressed = buttonDown1
-button1.when_released = buttonUp1
+forward = Button(21)
 
-button2.when_pressed = shutdown
+backward = Button(20)
+
+left = Button(22)
+
+right = Button(4)
+
+shutdown = Button(16)
+    
+
+forward.when_pressed = forwardButton
+forward.when_released = stopButton
+
+backward.when_pressed = backwardButton
+backward.when_released = stopButton
+
+left.when_pressed = leftButton
+left.when_released = stopButton
+
+right.when_pressed = rightButton
+right.when_released = stopButton
+
+shutdown.when_pressed = Shutdown
+print('end')
 pause()

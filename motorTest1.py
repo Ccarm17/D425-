@@ -33,11 +33,14 @@ PWM_REVERSE_RIGHT_PIN = 6	# IN2 - Reverse Drive
 
 # Initialise objects for H-Bridge PWM pins
 # Set initial duty cycle to 0 and frequency to 1000
-forwardLeft = PWMOutputDevice(PWM_FORWARD_LEFT_PIN, True, 0, 1000)
-reverseLeft = PWMOutputDevice(PWM_REVERSE_LEFT_PIN, True, 0, 1000)
+forwardLeft = PWMOutputDevice(PWM_FORWARD_LEFT_PIN, True, 0, 500)
+reverseLeft = PWMOutputDevice(PWM_REVERSE_LEFT_PIN, True, 0, 500)
 
-forwardRight = PWMOutputDevice(PWM_FORWARD_RIGHT_PIN, True, 0, 1000)
-reverseRight = PWMOutputDevice(PWM_REVERSE_RIGHT_PIN, True, 0, 1000)
+forwardRight = PWMOutputDevice(PWM_FORWARD_RIGHT_PIN, True, 0, 500)
+reverseRight = PWMOutputDevice(PWM_REVERSE_RIGHT_PIN, True, 0, 500)
+
+leftBump = Button(21)
+rightBump = Button(20)
 
 # Motor A, Trim % of difference
 
@@ -52,52 +55,44 @@ def allStop():
 	reverseRight.value = 0
 
 def forwardDrive():
-        forwardLeft.value = 0.8
+        forwardLeft.value = 0.2
         reverseLeft.value = 0
-        forwardRight.value = 0.8
+        forwardRight.value = 0.2
         reverseRight.value = 0
 
 def reverseDrive():
 	forwardLeft.value = 0
-	reverseLeft.value = 0.8
+	reverseLeft.value = 0.15
 	forwardRight.value = 0
-	reverseRight.value = 0.75
+	reverseRight.value = 0.15
 
 def spinLeft():
 	forwardLeft.value = 0
-	reverseLeft.value = 0.25
-	forwardRight.value = 0.25
+	reverseLeft.value = 0.15
+	forwardRight.value = 0.15
 	reverseRight.value = 0
 
 def spinRight():
-	forwardLeft.value = 0.25
+	forwardLeft.value = 0.15
 	reverseLeft.value = 0
 	forwardRight.value = 0
-	reverseRight.value = 0.25
+	reverseRight.value = 0.15
 
-def forwardTurnLeft():
+def leftBumpOn():
 	forwardLeft.value = 0.2
 	reverseLeft.value = 0
 	forwardRight.value = 0.8
 	reverseRight.value = 0
 
-def forwardTurnRight():
+def rightBumpOn():
 	forwardLeft.value = 0.8
 	reverseLeft.value = 0
 	forwardRight.value = 0.2
 	reverseRight.value = 0
+	print('right bump')
+	sleep(0.5)
 
-def reverseTurnLeft():
-	forwardLeft.value = 0
-	reverseLeft.value = 0.2
-	forwardRight.value = 0
-	reverseRight.value = 0.8
 
-def reverseTurnRight():
-	forwardLeft.value = 0
-	reverseLeft.value = 0.8
-	forwardRight.value = 0
-	reverseRight.value = 0.2
 
 
 def main():
@@ -117,6 +112,10 @@ def main():
                  spinRight()
          elif char == 'f':
                  allStop()
+         rightBump.when_pressed = rightBumpOn
+ 
+
+        
 
 
 
