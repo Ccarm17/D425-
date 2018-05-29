@@ -3,6 +3,7 @@ from gpiozero import PWMOutputDevice, Button
 from time import sleep
 from subprocess import check_call
 
+#running on D425 droid
 host = ''
 port = 5560
 
