@@ -1,5 +1,5 @@
 import socket
-#from gpiozero import PWMOutputDevice, Button
+from gpiozero import PWMOutputDevice, Button
 from time import sleep
 from subprocess import check_call
 
