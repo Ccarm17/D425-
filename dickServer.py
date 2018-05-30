@@ -96,16 +96,22 @@ def rightBumpOn():
 	return None
 
 def switch1aOn():
+    return
 
 def switch1bOn():
+    return
 
 def switch2On():
+    return
 
 def switch3On():
+    return
 
 def switch4On():
+    return
 
 def switch5On():
+    return
 
 def GET():
     reply = storedValue
