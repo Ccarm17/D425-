@@ -30,6 +30,9 @@ reverseRight = PWMOutputDevice(PWM_REVERSE_RIGHT_PIN, True, 0, 500)
 leftBump = Button(21)
 rightBump = Button(20)
 
+speedmod = 1
+turnmod = 1
+
 # Motor A, Trim % of difference
 
 # Motor B, Trim % of difference
@@ -43,28 +46,28 @@ def allStop():
 	reverseRight.value = 0
 
 def forwardDrive():
-    forwardLeft.value = 0.2
+    forwardLeft.value = 0.2 * speedmod
     reverseLeft.value = 0
-    forwardRight.value = 0.2
+    forwardRight.value = 0.2 * speedmod
 	reverseRight.value = 0
 
 def reverseDrive():
 	forwardLeft.value = 0
-	reverseLeft.value = 0.15
+	reverseLeft.value = 0.15 * speedmod
 	forwardRight.value = 0
-	reverseRight.value = 0.15
+	reverseRight.value = 0.15 * speedmod
 
 def spinLeft():
 	forwardLeft.value = 0
-	reverseLeft.value = 0.15
-	forwardRight.value = 0.15
+	reverseLeft.value = 0.15 * turnmod
+	forwardRight.value = 0.15 * turnmod
 	reverseRight.value = 0
 
 def spinRight():
-	forwardLeft.value = 0.15
+	forwardLeft.value = 0.15 * trunmod
 	reverseLeft.value = 0
 	forwardRight.value = 0
-	reverseRight.value = 0.15
+	reverseRight.value = 0.15 * turnmod
 
 def leftBumpOn():
 	forwardLeft.value = 0.2

@@ -25,6 +25,12 @@ reverseRight = PWMOutputDevice(PWM_REVERSE_RIGHT_PIN, True, 0, 500)
 leftBump = Button(21)
 rightBump = Button(20)
 
+speedmod = 1
+turnmod = 1
+
+rightBump.when_pressed = rightBumpOn()
+leftBump.when_pressed = leftBumpOn()
+
 def setupServer():
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     print("Socket created.")
@@ -42,34 +48,34 @@ def setupConnection():
     return conn
 
 def allStop():
-        forwardLeft.value = 0
-        reverseLeft.value = 0
-        forwardRight.value = 0
-        reverseRight.value = 0
+	forwardLeft.value = 0
+	reverseLeft.value = 0
+	forwardRight.value = 0
+	reverseRight.value = 0
 
 def forwardDrive():
-        forwardLeft.value = 0.2
-        reverseLeft.value = 0
-        forwardRight.value = 0.2
-        reverseRight.value = 0
+    forwardLeft.value = 0.2 * speedmod
+    reverseLeft.value = 0
+    forwardRight.value = 0.2 * speedmod
+	reverseRight.value = 0
 
 def reverseDrive():
 	forwardLeft.value = 0
-	reverseLeft.value = 0.15
+	reverseLeft.value = 0.15 * speedmod
 	forwardRight.value = 0
-	reverseRight.value = 0.15
+	reverseRight.value = 0.15 * speedmod
 
 def spinLeft():
 	forwardLeft.value = 0
-	reverseLeft.value = 0.15
-	forwardRight.value = 0.15
+	reverseLeft.value = 0.15 * turnmod
+	forwardRight.value = 0.15 * turnmod
 	reverseRight.value = 0
 
 def spinRight():
-	forwardLeft.value = 0.15
+	forwardLeft.value = 0.15 * trunmod
 	reverseLeft.value = 0
 	forwardRight.value = 0
-	reverseRight.value = 0.15
+	reverseRight.value = 0.15 * turnmod
 
 def leftBumpOn():
 	forwardLeft.value = 0.2
@@ -88,6 +94,18 @@ def rightBumpOn():
 	print('right bump')
 	sleep(0.5)
 	return None
+
+def switch1aOn():
+
+def switch1bOn():
+
+def switch2On():
+
+def switch3On():
+
+def switch4On():
+
+def switch5On():
 
 def GET():
     reply = storedValue
@@ -135,6 +153,17 @@ def dataTransfer(conn):
             print('stop')
             reply = allStop()
 
+        elif command == 'S1AOn':
+            print('switch 1 A has been activated')
+            reply = switch1aOn()
+
+        elif command == 'S1BOn':
+            print('switch 1 B has been activated')
+            reply = switch1bOn()
+
+        elif command == 'S2On':
+            print('switch 2 has been activated')
+            reply = switch2On()
 
         else:
             reply = 'Unknown Command'
@@ -146,8 +175,7 @@ def dataTransfer(conn):
 
 
     conn.close()
-rightBump.when_pressed = rightBumpOn()
-leftBump.when_pressed = leftBumpOn()
+
 s = setupServer()
 
 while True:
