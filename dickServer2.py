@@ -28,8 +28,8 @@ rightBump = Button(20)
 speedmod = 1
 turnmod = 1
 
-rightBump.when_pressed = rightBumpOn()
-leftBump.when_pressed = leftBumpOn()
+rightBump.when_pressed = rightBumpOn
+leftBump.when_pressed = leftBumpOn
 
 def setupServer():
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -95,6 +95,23 @@ def rightBumpOn():
 	sleep(0.5)
 	return None
 
+def switch1aOn():
+    return
+
+def switch1bOn():
+    return
+
+def switch2On():
+    return
+
+def switch3On():
+    return
+
+def switch4On():
+    return
+
+def switch5On():
+    return
 
 def GET():
     reply = storedValue
@@ -142,7 +159,17 @@ def dataTransfer(conn):
             print('stop')
             reply = allStop()
 
+        elif command == 'S1AOn':
+            print('switch 1 A has been activated')
+            reply = switch1aOn()
 
+        elif command == 'S1BOn':
+            print('switch 1 B has been activated')
+            reply = switch1bOn()
+
+        elif command == 'S2On':
+            print('switch 2 has been activated')
+            reply = switch2On()
 
         else:
             reply = 'Unknown Command'
