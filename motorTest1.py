@@ -2,8 +2,9 @@
 
 
 import curses
-from gpiozero import PWMOutputDevice, Button
+from gpiozero import PWMOutputDevice, Button, DistanceSensor
 from time import sleep
+from signal import pause
 
 from subprocess import check_call
 
@@ -29,6 +30,9 @@ reverseRight = PWMOutputDevice(PWM_REVERSE_RIGHT_PIN, True, 0, 500)
 
 leftBump = Button(21)
 rightBump = Button(20)
+
+sensor = DistanceSensor (echo=11, trigger=5)
+
 
 speedmod = 1
 turnmod = 1
@@ -79,10 +83,7 @@ def leftBumpOn():
 	return
 
 def rightBumpOn():
-	forwardLeft.value = 0.8
-	reverseLeft.value = 0
-	forwardRight.value = 0.2
-	reverseRight.value = 0
+	print('Distance: ', sensor.distance *100)
 	print('right bump')
 	sleep(0.5)
 	return None
@@ -109,6 +110,8 @@ def main():
                  allStop()
          rightBump.when_pressed = rightBumpOn
 		 leftBump.when_pressed = leftBumpOn
+
+
 
 
 
